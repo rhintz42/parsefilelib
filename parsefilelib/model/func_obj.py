@@ -19,6 +19,10 @@ class FuncObj(object):
     def function_name(self):
         return self._function_name
 
+    @property
+    def function_lines(self):
+        return self._function_lines
+
     """ SETTERS """
     @parent_file_obj.setter
     def parent_file_obj(self, value):
@@ -32,4 +36,4 @@ class FuncObj(object):
     def function_lines(self, value):
         self._function_lines = value
 
-    """ GET FUNCTIONS """
+    #""" GET FUNCTIONS """
