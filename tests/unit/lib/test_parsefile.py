@@ -57,7 +57,7 @@ class TestParseFile(unittest.TestCase):
         test_file = self.get_test_file_path('docstrings.py')
         file_list = file_to_list(test_file)
 
-        assert len(file_list) == 50
+        assert len(file_list) >= 60
     
     def test_file_to_list__class_simple(self):
         from parsefilelib.lib.parsefile import file_to_list

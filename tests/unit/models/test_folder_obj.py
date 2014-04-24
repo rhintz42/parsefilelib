@@ -36,7 +36,7 @@ class TestFolderObj(unittest.TestCase):
         folder_obj = FolderObj(test_folder_path)
 
         # TODO: Put in a better check
-        assert len(folder_obj.child_files) == 4
+        assert len(folder_obj.child_files) >= 5
  
     def test_init__child_files__unit(self):
         from parsefilelib.model.folder_obj import FolderObj
@@ -115,7 +115,7 @@ class TestFolderObj(unittest.TestCase):
         folder_obj = FolderObj(test_folder_path)
 
         # TODO: Put in a better check
-        assert len(folder_obj.child_file_names) == 4
+        assert len(folder_obj.child_file_names) >= 5
 
     def test_child_file_names__unit(self):
         from parsefilelib.model.folder_obj import FolderObj
@@ -211,7 +211,7 @@ class TestFolderObj(unittest.TestCase):
         folder_obj = FolderObj(test_folder_path)
 
         # TODO: Put in a better check
-        assert len(folder_obj.rec_child_files) == 4
+        assert len(folder_obj.rec_child_files) >= 5
 
     def test_rec_child_files__unit(self):
         from parsefilelib.model.folder_obj import FolderObj
@@ -231,7 +231,7 @@ class TestFolderObj(unittest.TestCase):
         folder_obj = FolderObj(test_folder_path)
 
         # TODO: Put in a better check
-        assert len(folder_obj.rec_child_files) == 13
+        assert len(folder_obj.rec_child_files) >= 14
 
     ################################################################
     def test_rec_child_folders__test_files(self):

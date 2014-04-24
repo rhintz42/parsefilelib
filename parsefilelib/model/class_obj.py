@@ -1,30 +1,27 @@
-class FuncObj(object):
+class ClassObj(object):
     """
-    An object the encapsulates all details of a function
+    An object the encapsulates all details of a class
 
-    SHOULD MERGE THIS CLASS WITH ClassObj BECAUSE SOO SIMILAR
+    SHOULD MERGE THIS CLASS WITH FuncObj BECAUSE SOO SIMILAR
+    * CREATE A BASE CLASS THAT CAN INHERIT FROM
     """
 
     # TODO: FUNCTION LINES MAYBE DANGEROUS
     #   Look into further to see best way to handle
     #   Do recursion in these files
-    #       Check to make sure name is in there, though
+    #       Check to make sure function_name is in there, though
     def __init__(self, file_obj, name, lines=None):
         """
         init method for the FileObj class
         """
         self.parent_file = file_obj
-        self.name = file_obj
+        self.name = name
 
         self.child_functions = []
         self.child_classes = []
 
         if lines:
             self.lines = lines
-        # self.indent
-        # self.decorators
-        # self.docstring
-        # self.inner_lines
 
     """ GETTERS """
     @property

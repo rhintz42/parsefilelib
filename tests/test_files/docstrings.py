@@ -45,6 +45,17 @@ def seventh_docstring_function():
     c = 30
     return '''
 
-        sixth_docstring_function_return
+        seventh_docstring_function_return
+
+    '''
+
+def eighth_docstring_function():
+    """
+docstring that is put all the way to the left
+"""
+    y = 80
+    return '''
+
+        eighth_docstring_function_return
 
     '''

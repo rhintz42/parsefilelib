@@ -1,5 +1,5 @@
 from parsefilelib.lib.parsefile import file_to_list
-from parsefilelib.lib.file_obj import get_child_functions, \
+from parsefilelib.lib.file_obj import rec_fetch_children, \
                                       get_folder_path_from_file_path
 
 class FileObj(object):
@@ -13,6 +13,12 @@ class FileObj(object):
         """
         self.file_path = file_path
         self.file_lines = file_to_list(file_path)
+
+        self.child_functions = []
+        self.child_classes = []
+
+        self.fetch_children()
+
         if parent_folder:
             self.parent_folder = parent_folder
         else:
@@ -23,12 +29,11 @@ class FileObj(object):
     """ GETTERS """
     @property
     def child_functions(self):
-        if hasattr(self, '_child_functions'):
-            return self._child_functions
+        return self._child_functions
 
-        self.child_functions = self.get_child_functions()
-
-        return self.child_functions
+    @property
+    def child_classes(self):
+        return self._child_classes
 
     @property
     def file_lines(self):
@@ -55,6 +60,10 @@ class FileObj(object):
     def child_functions(self, value):
         self._child_functions = value
 
+    @child_classes.setter
+    def child_classes(self, value):
+        self._child_classes = value
+
     @file_lines.setter
     def file_lines(self, value):
         self._file_lines = value
@@ -67,6 +76,16 @@ class FileObj(object):
     def parent_folder(self, value):
         self._parent_folder = value
 
-    """ GET FUNCTIONS """
-    def get_child_functions(self):
-        return get_child_functions(self.file_lines)
+    """ APPEND FUNCTIONS """
+    def append_child_function(self, func_obj):
+        self._child_functions.append(func_obj)
+
+    def append_child_class(self, class_obj):
+        self._child_classes.append(class_obj)
+
+    """ FETCH FUNCTIONS """
+    def fetch_children(self):
+        rec_fetch_children(self, self, self.file_lines, -1, 0)
+
+        return self.child_functions
+        
