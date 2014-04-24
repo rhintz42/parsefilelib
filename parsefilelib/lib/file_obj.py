@@ -9,3 +9,6 @@ def get_child_functions(file_lines):
             function_definitions.append(l)
 
     return function_definitions
+
+def get_folder_path_from_file_path(file_path):
+    return '/'.join(file_path.split('/')[:-1])

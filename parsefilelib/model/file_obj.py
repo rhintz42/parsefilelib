@@ -1,5 +1,6 @@
 from parsefilelib.lib.parsefile import file_to_list
-from parsefilelib.lib.file_obj import get_child_functions
+from parsefilelib.lib.file_obj import get_child_functions, \
+                                      get_folder_path_from_file_path
 
 class FileObj(object):
     """
@@ -12,9 +13,12 @@ class FileObj(object):
         """
         self.file_path = file_path
         self.file_lines = file_to_list(file_path)
-        # If folder given, set the parent_folder property
-        # If folder not given, then create one and set the parent_folder
-        #   property
+        if parent_folder:
+            self.parent_folder = parent_folder
+        else:
+            from parsefilelib.model.folder_obj import FolderObj
+            self.parent_folder = FolderObj(get_folder_path_from_file_path(file_path),
+                                           file_obj=self)
 
     """ GETTERS """
     @property
@@ -39,6 +43,10 @@ class FileObj(object):
         return self._file_path
 
     @property
+    def parent_folder(self):
+        return self._parent_folder
+
+    @property
     def num_lines(self):
         return len(self.file_lines)
 
@@ -54,6 +62,10 @@ class FileObj(object):
     @file_path.setter
     def file_path(self, value):
         self._file_path = value
+
+    @parent_folder.setter
+    def parent_folder(self, value):
+        self._parent_folder = value
 
     """ GET FUNCTIONS """
     def get_child_functions(self):

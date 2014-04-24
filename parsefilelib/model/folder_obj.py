@@ -18,8 +18,12 @@ class FolderObj(object):
 
         self.parent_folder = parent_folder
 
-        self.fetch_child_file_objs(folder_path)
-        self.fetch_child_folder_objs(folder_path)
+        if file_obj:
+            self.single_child_mode = True
+            self.append_child_file(file_obj)
+        else:
+            self.fetch_child_file_objs(folder_path)
+            self.fetch_child_folder_objs(folder_path)
 
     """ GETTERS """
     @property
@@ -59,11 +63,25 @@ class FolderObj(object):
 
     @property
     def rec_child_files(self):
-        pass
+        c_files = self.child_files
+        
+        for f in self.child_folders:
+            c_files += f.rec_child_files
+
+        return c_files
 
     @property
     def rec_child_folders(self):
-        pass
+        c_folders = self.child_folders
+
+        for f in self.child_folders:
+            c_folders += f.rec_child_folders
+
+        return c_folders
+
+    @property
+    def single_child_mode(self):
+        return self._single_child_mode
 
     """ SETTERS """
     @folder_path.setter
@@ -74,6 +92,10 @@ class FolderObj(object):
     def parent_folder(self, value):
         self._parent_folder = value
 
+    @single_child_mode.setter
+    def single_child_mode(self, value):
+        self._single_child_mode = value
+
     """ APPENDERS """
     def append_child_file(self, value):
         self._child_files.append(value)
@@ -83,6 +105,7 @@ class FolderObj(object):
     
     """ Fetch Methods """
     def fetch_child_file_objs(self, folder_path):
+        self.single_child_mode = False
         child_file_names = get_child_file_names(folder_path)
 
         for c in child_file_names:
