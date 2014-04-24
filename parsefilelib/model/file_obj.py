@@ -6,12 +6,15 @@ class FileObj(object):
     An object the encapsulates all details of a file
     """
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, parent_folder=None):
         """
         init method for the FileObj class
         """
         self.file_path = file_path
         self.file_lines = file_to_list(file_path)
+        # If folder given, set the parent_folder property
+        # If folder not given, then create one and set the parent_folder
+        #   property
 
     """ GETTERS """
     @property
@@ -42,10 +45,6 @@ class FileObj(object):
     """ SETTERS """
     @child_functions.setter
     def child_functions(self, value):
-        self._child_functions = value
-
-    @file_lines.setter
-    def file_lines(self, value):
         self._child_functions = value
 
     @file_lines.setter
