@@ -16,6 +16,7 @@ class FileObj(object):
 
         self.child_functions = []
         self.child_classes = []
+        self.child_docstrings = []
 
         self.fetch_children()
 
@@ -34,6 +35,10 @@ class FileObj(object):
     @property
     def child_classes(self):
         return self._child_classes
+
+    @property
+    def child_docstrings(self):
+        return self._child_docstrings
 
     @property
     def file_lines(self):
@@ -64,6 +69,10 @@ class FileObj(object):
     def child_classes(self, value):
         self._child_classes = value
 
+    @child_docstrings.setter
+    def child_docstrings(self, value):
+        self._child_docstrings = value
+
     @file_lines.setter
     def file_lines(self, value):
         self._file_lines = value
@@ -83,8 +92,23 @@ class FileObj(object):
     def append_child_class(self, class_obj):
         self._child_classes.append(class_obj)
 
-    """ FETCH FUNCTIONS """
+    def append_child_docstring(self, docstring):
+        self._child_docstrings.append(docstring)
+
+    def append_child(self, obj):
+        if obj.obj_type == 'function':
+            self.append_child_function(obj)
+        elif obj.obj_type == 'class':
+            self.append_child_class(obj)
+        else:
+            self._child_docstrings.append(docstring)
+
+    """ FETCH CHILD OBJECTS """
     def fetch_children(self):
+        self.child_functions = []
+        self.child_classes = []
+        self.child_docstrings = []
+
         rec_fetch_children(self, self, self.file_lines, -1, 0)
 
         return self.child_functions

@@ -221,7 +221,7 @@ class TestFolderObj(unittest.TestCase):
         folder_obj = FolderObj(test_folder_path)
 
         # TODO: Put in a better check
-        assert len(folder_obj.rec_child_files) == 7
+        assert len(folder_obj.rec_child_files) >= 8
 
     def test_rec_child_files__tests(self):
         from parsefilelib.model.folder_obj import FolderObj
