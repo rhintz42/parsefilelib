@@ -28,7 +28,7 @@ def fetch_comment(file_lines, index):
     l = file_lines[comment_start_i]
     l_no_indent = l.lstrip()
 
-    import pdb;pdb.set_trace()
+    #import pdb;pdb.set_trace()
     if '"""' in l_no_indent or "'''" in l_no_indent:
         # Get the comment and attach to the parent object
         comment_end_i = _get_string_end_index(file_lines, comment_start_i)
