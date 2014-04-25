@@ -19,14 +19,14 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 0
-        assert len(file_obj.child_functions) == 1
-        assert len(file_obj.child_docstrings) == 0
+        assert len(file_obj.classes) == 0
+        assert len(file_obj.functions) == 1
+        assert len(file_obj.docstrings) == 0
  
     def test_rec_fetch_children__simple_1(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -36,14 +36,17 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 0
-        assert len(file_obj.child_functions) == 7
-        assert len(file_obj.child_docstrings) == 0
+        assert len(file_obj.classes) == 0
+        assert len(file_obj.functions) == 7
+        assert len(file_obj.docstrings) == 0
+        assert len(file_obj.functions[4].variables) == 1
+        assert len(file_obj.functions[5].variables) == 2
+        assert len(file_obj.functions[6].variables) == 1
  
     def test_rec_fetch_children__simple_2(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -53,14 +56,14 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 0
-        assert len(file_obj.child_functions) == 2
-        assert len(file_obj.child_docstrings) == 0
+        assert len(file_obj.classes) == 0
+        assert len(file_obj.functions) == 2
+        assert len(file_obj.docstrings) == 0
  
     def test_rec_fetch_children__class_simple(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -70,17 +73,17 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
-        file_obj.child_docstrings = []
+        file_obj.functions = []
+        file_obj.classes = []
+        file_obj.docstrings = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 1
-        assert len(file_obj.child_functions) == 0
-        assert len(file_obj.child_classes[0].child_classes) == 0
-        assert len(file_obj.child_classes[0].child_functions) == 2
-        assert len(file_obj.child_classes[0].child_docstrings) == 1
+        assert len(file_obj.classes) == 1
+        assert len(file_obj.functions) == 0
+        assert len(file_obj.classes[0].classes) == 0
+        assert len(file_obj.classes[0].functions) == 2
+        assert len(file_obj.classes[0].docstrings) == 1
  
     def test_rec_fetch_children__class_with_extra_functions(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -90,15 +93,15 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 1
-        assert len(file_obj.child_functions) == 1
-        assert len(file_obj.child_classes[0].child_classes) == 0
-        assert len(file_obj.child_classes[0].child_functions) == 2
+        assert len(file_obj.classes) == 1
+        assert len(file_obj.functions) == 1
+        assert len(file_obj.classes[0].classes) == 0
+        assert len(file_obj.classes[0].functions) == 2
 
     def test_rec_fetch_children__docstrings(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -108,13 +111,13 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 0
-        assert len(file_obj.child_functions) == 8
+        assert len(file_obj.classes) == 0
+        assert len(file_obj.functions) == 8
 
     def test_rec_fetch_children__strings(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
@@ -124,11 +127,11 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj = FileObj(test_file_path)
 
         # Reset child arrays
-        file_obj.child_functions = []
-        file_obj.child_classes = []
+        file_obj.functions = []
+        file_obj.classes = []
 
         end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
 
-        assert len(file_obj.child_classes) == 1
-        assert len(file_obj.child_functions) == 0
-        assert len(file_obj.child_classes[0].child_functions) == 2
+        assert len(file_obj.classes) == 1
+        assert len(file_obj.functions) == 0
+        assert len(file_obj.classes[0].functions) == 2

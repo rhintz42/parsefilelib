@@ -1,3 +1,5 @@
+import re
+
 def _get_string_end_index(func_code_lines, docstring_start_index):
     """ Get End of Docstring line # """
     if func_code_lines[docstring_start_index].count('"""') == 2 or \
@@ -38,35 +40,22 @@ def fetch_comment(file_lines, index):
     return index, None
 
 def fetch_docstring(parent_obj, file_lines, func_def_index):
-    docstring_start_i = func_def_index + 1
-
-    if docstring_start_i >= len(file_lines):
-        return docstring_start_i
-
-    l = file_lines[docstring_start_i]
-    l_no_indent = l.lstrip()
-
-    if '"""' == l_no_indent[:3] or "'''" == l_no_indent[:3]:
-        # Get the docstring and attach to the parent object
-        docstring_end_i = _get_string_end_index(file_lines, docstring_start_i)
-        docstring = file_lines[docstring_start_i:docstring_end_i+1]
-        parent_obj.append_child_docstring(docstring)
-        return docstring_end_i + 1
-    
-    return func_def_index
+    end_i, comment = fetch_comment(file_lines, func_def_index)
+    parent_obj.append_docstring(comment)
+    return end_i
 
 #def fetch_child_objects():
 def create_child_obj(file_obj, parent_obj, file_lines, parent_indent, index):
-    from parsefilelib.model.func_obj import BaseLineObj
+    from parsefilelib.model.base_lines_obj import BaseLinesObj
 
     l = file_lines[index]
     l_no_indent = l.lstrip()
     indent = len(l) - len(l_no_indent)
 
     if 'def' == l_no_indent[:3]:
-        obj = BaseLineObj('function', file_obj, get_function_name(l_no_indent))
+        obj = BaseLinesObj('function', file_obj, get_function_name(l_no_indent))
     elif 'class' == l_no_indent[:5]:
-        obj = BaseLineObj('class', file_obj, get_class_name(l_no_indent))
+        obj = BaseLinesObj('class', file_obj, get_class_name(l_no_indent))
 
     # TODO: Get all Decorators
     index = fetch_docstring(obj, file_lines, index)
@@ -77,38 +66,64 @@ def create_child_obj(file_obj, parent_obj, file_lines, parent_indent, index):
 
     return end_i
 
+def fetch_variable(file_lines, index):
+    end_i = index
+    variable_definition = file_lines[index]
+
+    return end_i, variable_definition
+
 def rec_fetch_children(file_obj, parent_obj, file_lines, parent_indent, index):
     """
     Returns list of function objects
 
     Recursive wrapper
     """
+    #import ast
+
+    #a = ast.parse(open(file_obj.path, 'r').read())
+    #w = ast.walk(a)
+    #for n in w:
+    #    import pdb;pdb.set_trace()
+
     if index >= len(file_lines):
         return index
 
     i = index
     while i < len(file_lines):
         l = file_lines[i]
-        
-        # TODO: Check for Variable, `continue` if found
-        # TODO: Check for Return, `continue` if found
-
-        # TODO: Check line for Multi-Line String, `continue` if found
-        if '"""' in l or "'''" in l:
-            end_i, comment = fetch_comment(file_lines, i)
-            i = end_i
-
-        # TODO: Check Line for Import, `continue` if found
-
         l_no_indent = l.lstrip()
         indent = len(l) - len(l_no_indent)
+
+        if indent <= parent_indent:
+            return i-1
+        
+        # TODO: Check for Variable, append if found
+        single_equal = re.compile('.*[^=]=[^=].*')
+        if single_equal.search(l):
+            end_i, v = fetch_variable(file_lines, i)
+            parent_obj.append_variable(v)
+            i = end_i
+
+        # TODO: Check for Return
+        if 'return' == l_no_indent[:6]:
+            end_i, v = fetch_variable(file_lines, i)
+            parent_obj.append_return(v)
+            i = end_i
+
+        # TODO: This currently just appends no matter what, but should only do if an actual comment
+        # TODO: Add 'is_comment' boolean
+        if '"""' in l or "'''" in l:
+            end_i, comment = fetch_comment(file_lines, i)
+            parent_obj.append_comment(comment)
+            i = end_i + 1
+            continue
+
+        # TODO: Check Line for Import, `continue` if found
         
         if 'def' == l_no_indent[:3] or 'class' == l_no_indent[:5]:
-            if indent <= parent_indent:
-                return i-1
-
             end_i = create_child_obj(file_obj, parent_obj, file_lines, parent_indent, i)
-            i = end_i
+            i = end_i + 1
+            continue
 
         i += 1
 

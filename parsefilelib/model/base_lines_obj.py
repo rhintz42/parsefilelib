@@ -1,4 +1,4 @@
-class BaseLineObj(object):
+class BaseLinesObj(object):
     """
     An object the encapsulates all details of a Lines object
     """
@@ -9,15 +9,20 @@ class BaseLineObj(object):
     #       Check to make sure function_name is in there, though
     def __init__(self, obj_type, file_obj, name, lines=None):
         """
-        init method for the BaseLineObj
+        init method for the BaseLinesObj
         """
         self.parent_file = file_obj
         self.name = name
         self.obj_type = obj_type
 
-        self.child_functions = []
-        self.child_classes = []
-        self.child_docstrings = []
+        self.functions = []
+        self.classes = []
+        self.docstrings = []
+        self.comments = []
+        self.imports = []
+        self.variables = []
+        self.returns = []
+        self.decorators = []
 
         if lines:
             self.lines = lines
@@ -48,16 +53,36 @@ class BaseLineObj(object):
         return self._obj_type == 'function'
 
     @property
-    def child_functions(self):
-        return self._child_functions
+    def functions(self):
+        return self._functions
 
     @property
-    def child_classes(self):
-        return self._child_classes
+    def classes(self):
+        return self._classes
 
     @property
-    def child_docstrings(self):
-        return self._child_docstrings
+    def docstrings(self):
+        return self._docstrings
+
+    @property
+    def comments(self):
+        return self._comments
+
+    @property
+    def imports(self):
+        return self._imports
+
+    @property
+    def variables(self):
+        return self._variables
+
+    @property
+    def returns(self):
+        return self._returns
+
+    @property
+    def decorators(self):
+        return self._decorators
 
     """ SETTERS """
     @parent_file.setter
@@ -76,34 +101,67 @@ class BaseLineObj(object):
     def obj_type(self, value):
         self._obj_type = value
 
-    @child_functions.setter
-    def child_functions(self, value):
-        self._child_functions = value
+    @functions.setter
+    def functions(self, value):
+        self._functions = value
 
-    @child_classes.setter
-    def child_classes(self, value):
-        self._child_classes = value
+    @classes.setter
+    def classes(self, value):
+        self._classes = value
 
-    @child_docstrings.setter
-    def child_docstrings(self, value):
-        self._child_docstrings = value
+    @docstrings.setter
+    def docstrings(self, value):
+        self._docstrings = value
 
-    #""" GET FUNCTIONS """
+    @comments.setter
+    def comments(self, value):
+        self._comments = value
+
+    @imports.setter
+    def imports(self, value):
+        self._imports = value
+
+    @variables.setter
+    def variables(self, value):
+        self._variables = value
+
+    @returns.setter
+    def returns(self, value):
+        self._returns = value
+
+    @decorators.setter
+    def decorators(self, value):
+        self._decorators = value
 
     """ APPEND FUNCTIONS """
-    def append_child_function(self, func_obj):
-        self._child_functions.append(func_obj)
+    def append_function(self, func_obj):
+        self._functions.append(func_obj)
 
-    def append_child_class(self, class_obj):
-        self._child_classes.append(class_obj)
+    def append_class(self, class_obj):
+        self._classes.append(class_obj)
 
-    def append_child_docstring(self, docstring):
-        self._child_docstrings.append(docstring)
+    def append_docstring(self, docstring):
+        self._docstrings.append(docstring)
+
+    def append_comment(self, comment):
+        self._comments.append(comment)
+
+    def append_import(self, imp):
+        self._imports.append(imp)
+
+    def append_variable(self, v):
+        self._variables.append(v)
+
+    def append_return(self, ret):
+        self._returns.append(ret)
+
+    def append_decorator(self, decorator):
+        self._decorators.append(decorator)
 
     def append_child(self, obj):
         if obj.obj_type == 'function':
-            self.append_child_function(obj)
+            self.append_function(obj)
         elif obj.obj_type == 'class':
-            self.append_child_class(obj)
+            self.append_class(obj)
         else:
-            self._child_docstrings.append(docstring)
+            self._docstrings.append(docstring)

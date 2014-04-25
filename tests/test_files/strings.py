@@ -1,3 +1,7 @@
+import ast
+import os
+from parsefilelib.lib.file_obj import FileObj
+
 class Foo():
     """
 def hello():
