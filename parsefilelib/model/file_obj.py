@@ -1,31 +1,28 @@
 from parsefilelib.lib.parsefile import file_to_list
 from parsefilelib.lib.file_obj import rec_fetch_children, \
                                       get_folder_path_from_file_path
+from parsefilelib.model.base_lines_obj import BaseLinesObj
 
-class FileObj(object):
+class FileObj(BaseLinesObj):
     """
     An object the encapsulates all details of a file
     """
 
-    def __init__(self, path, parent_folder=None):
+    def __init__(self, path, parent_folder=None, lines=None):
         """
         init method for the FileObj class
         """
         self.path = path
-        self.file_lines = file_to_list(path)
-        self.obj_type = 'file'
+        self.lines = file_to_list(path)
+        
+        # Init Parent Variables and Functions
+        super(FileObj, self).__init__('file', self, self.file_name,
+                                        lines=lines, indent=-1)
 
-        self.functions = []
-        self.classes = []
-        self.docstrings = []
-        self.comments = []
-        self.imports = []
-        self.variables = []
-        self.returns = []
-        self.decorators = []
-
+        # Get children
         self.fetch_children()
 
+        # Get Parent
         if parent_folder:
             self.parent_folder = parent_folder
         else:
@@ -34,46 +31,6 @@ class FileObj(object):
                                            file_obj=self)
 
     """ GETTERS """
-    @property
-    def functions(self):
-        return self._functions
-
-    @property
-    def classes(self):
-        return self._classes
-
-    @property
-    def docstrings(self):
-        return self._docstrings
-
-    @property
-    def comments(self):
-        return self._comments
-
-    @property
-    def imports(self):
-        return self._imports
-
-    @property
-    def variables(self):
-        return self._variables
-
-    @property
-    def returns(self):
-        return self._returns
-
-    @property
-    def decorators(self):
-        return self._decorators
-
-    @property
-    def obj_type(self):
-        return self._obj_type
-
-    @property
-    def file_lines(self):
-        return self._file_lines
-
     @property
     def file_name(self):
         return self._path.split('/')[-1]
@@ -86,91 +43,16 @@ class FileObj(object):
     def parent_folder(self):
         return self._parent_folder
 
-    @property
-    def num_lines(self):
-        return len(self.file_lines)
-
     """ SETTERS """
-    @functions.setter
-    def functions(self, value):
-        self._functions = value
-
-    @classes.setter
-    def classes(self, value):
-        self._classes = value
-
-    @docstrings.setter
-    def docstrings(self, value):
-        self._docstrings = value
-
-    @file_lines.setter
-    def file_lines(self, value):
-        self._file_lines = value
+    @parent_folder.setter
+    def parent_folder(self, value):
+        self._parent_folder = value
 
     @path.setter
     def path(self, value):
         self._path = value
 
-    @obj_type.setter
-    def obj_type(self, value):
-        self._obj_type = value
-
-    @parent_folder.setter
-    def parent_folder(self, value):
-        self._parent_folder = value
-
-    @comments.setter
-    def comments(self, value):
-        self._comments = value
-
-    @imports.setter
-    def imports(self, value):
-        self._imports = value
-
-    @variables.setter
-    def variables(self, value):
-        self._variables = value
-
-    @returns.setter
-    def returns(self, value):
-        self._returns = value
-
-    @decorators.setter
-    def decorators(self, value):
-        self._decorators = value
-
     """ APPEND FUNCTIONS """
-    def append_function(self, func_obj):
-        self._functions.append(func_obj)
-
-    def append_class(self, class_obj):
-        self._classes.append(class_obj)
-
-    def append_docstring(self, docstring):
-        self._docstrings.append(docstring)
-
-    def append_comment(self, comment):
-        self._comments.append(comment)
-
-    def append_import(self, imp):
-        self._imports.append(imp)
-
-    def append_variable(self, v):
-        self._variables.append(v)
-
-    def append_return(self, v):
-        self._returns.append(v)
-
-    def append_decorator(self, decorator):
-        self._decorators.append(decorator)
-
-    def append_child(self, obj):
-        if obj.obj_type == 'function':
-            self.append_function(obj)
-        elif obj.obj_type == 'class':
-            self.append_class(obj)
-        else:
-            self._docstrings.append(docstring)
 
     """ FETCH CHILD OBJECTS """
     def fetch_children(self):
@@ -178,7 +60,12 @@ class FileObj(object):
         self.classes = []
         self.docstrings = []
 
-        rec_fetch_children(self, self, self.file_lines, -1, 0)
+        rec_fetch_children(self, self, self.lines, -1, 0)
 
         return self.functions
-        
+    
+    """ GET METHODS """
+    def to_dict(self):
+        parent_dict = super(FileObj, self).to_dict()
+        # TODO: Add stuff only this class has to parent_dict
+        return parent_dict

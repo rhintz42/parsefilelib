@@ -22,7 +22,7 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 0
         assert len(file_obj.functions) == 1
@@ -39,7 +39,7 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 0
         assert len(file_obj.functions) == 7
@@ -59,7 +59,7 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 0
         assert len(file_obj.functions) == 2
@@ -77,14 +77,16 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.classes = []
         file_obj.docstrings = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 1
         assert len(file_obj.functions) == 0
         assert len(file_obj.classes[0].classes) == 0
         assert len(file_obj.classes[0].functions) == 2
+        # Test the docstring
         assert len(file_obj.classes[0].docstrings) == 1
- 
+        assert file_obj.classes[0].docstrings[0][1] == '    A test class\n'
+
     def test_rec_fetch_children__class_with_extra_functions(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
         from parsefilelib.model.file_obj import FileObj
@@ -96,7 +98,7 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 1
         assert len(file_obj.functions) == 1
@@ -114,7 +116,7 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 0
         assert len(file_obj.functions) == 8
@@ -130,8 +132,27 @@ class TestRecFetchChildren(unittest.TestCase):
         file_obj.functions = []
         file_obj.classes = []
 
-        end_i = rec_fetch_children(file_obj, file_obj, file_obj.file_lines, -1, 0)
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
 
         assert len(file_obj.classes) == 1
         assert len(file_obj.functions) == 0
         assert len(file_obj.classes[0].functions) == 2
+
+    def test_rec_fetch_children__decorators(self):
+        from parsefilelib.lib.file_obj import rec_fetch_children
+        from parsefilelib.model.file_obj import FileObj
+
+        test_file_path = self.get_test_file_path('decorators.py')
+        file_obj = FileObj(test_file_path)
+
+        # Reset child arrays
+        file_obj.functions = []
+        file_obj.classes = []
+
+        end_i = rec_fetch_children(file_obj, file_obj, file_obj.lines, -1, 0)
+
+        assert len(file_obj.classes) == 0
+        assert len(file_obj.functions) == 3
+        assert len(file_obj.functions[0].decorators) == 0
+        assert len(file_obj.functions[1].decorators) == 1
+        assert len(file_obj.functions[2].decorators) == 3

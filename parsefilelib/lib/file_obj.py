@@ -30,21 +30,37 @@ def fetch_comment(file_lines, index):
     l = file_lines[comment_start_i]
     l_no_indent = l.lstrip()
 
-    #import pdb;pdb.set_trace()
     if '"""' in l_no_indent or "'''" in l_no_indent:
         # Get the comment and attach to the parent object
         comment_end_i = _get_string_end_index(file_lines, comment_start_i)
         comment = file_lines[comment_start_i:comment_end_i+1]
-        return comment_end_i + 1, comment
+        return comment_end_i, comment
     
     return index, None
 
-def fetch_docstring(parent_obj, file_lines, func_def_index):
-    end_i, comment = fetch_comment(file_lines, func_def_index)
-    parent_obj.append_docstring(comment)
-    return end_i
+def is_docstring(lines):
+    return '"""' == lines[0].lstrip()[:3] or "'''" == lines[0].lstrip()[:3]
 
-#def fetch_child_objects():
+def fetch_docstring(parent_obj, file_lines, func_def_index):
+    doc_start_index = func_def_index + 1
+
+    end_i, comment = fetch_comment(file_lines, doc_start_index)
+    if comment and is_docstring(comment):
+        parent_obj.append_docstring(comment)
+        return end_i
+    return func_def_index
+
+def is_decorator(line):
+    return '@' == line.lstrip()[:1]
+
+def fetch_decorators(parent_obj, file_lines, func_def_index):
+    index = func_def_index - 1
+
+    i = index
+    while i > 0 and is_decorator(file_lines[i]):
+        parent_obj.append_decorator(file_lines[i])
+        i -= 1
+
 def create_child_obj(file_obj, parent_obj, file_lines, parent_indent, index):
     from parsefilelib.model.base_lines_obj import BaseLinesObj
 
@@ -53,9 +69,13 @@ def create_child_obj(file_obj, parent_obj, file_lines, parent_indent, index):
     indent = len(l) - len(l_no_indent)
 
     if 'def' == l_no_indent[:3]:
-        obj = BaseLinesObj('function', file_obj, get_function_name(l_no_indent))
+        obj = BaseLinesObj('function', file_obj, get_function_name(l_no_indent),
+                           indent=indent)
     elif 'class' == l_no_indent[:5]:
-        obj = BaseLinesObj('class', file_obj, get_class_name(l_no_indent))
+        obj = BaseLinesObj('class', file_obj, get_class_name(l_no_indent),
+                           indent=indent)
+
+    fetch_decorators(obj, file_lines, index)
 
     # TODO: Get all Decorators
     index = fetch_docstring(obj, file_lines, index)
