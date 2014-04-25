@@ -356,3 +356,54 @@ class TestFileObj(unittest.TestCase):
         assert d['classes'][0]['functions'][1]['is_class'] == False
         assert d['classes'][0]['functions'][1]['name'] == 'bar2'
         assert len(d['classes'][0]['functions'][1]['docstrings']) == 0
+
+    def test_to_dict__decorators(self):
+        from parsefilelib.model.file_obj import FileObj
+
+        test_file_path = self.get_test_file_path('decorators.py')
+        file_obj = FileObj(test_file_path)
+
+        d = file_obj.to_dict()
+
+        assert len(d['classes']) == 0
+        assert len(d['functions']) == 3
+        assert d['parent_file_path'] == test_file_path
+        assert len(d['imports']) == 0
+        assert d['indent'] == -1
+        assert d['is_class'] == False
+        assert d['is_function'] == False
+        assert len(d['lines']) == 15
+        assert d['name'] == 'decorators.py'
+        assert d['obj_type']  == 'file'
+        assert len(d['returns']) == 0
+        assert len(d['variables']) == 0
+        
+        assert len(d['functions'][0]['returns']) == 1
+        assert len(d['functions'][0]['functions']) == 0
+        assert len(d['functions'][0]['variables']) == 1
+        assert len(d['functions'][0]['docstrings']) == 0
+        assert len(d['functions'][0]['decorators']) == 0
+        assert d['functions'][0]['obj_type'] == 'function'
+        assert d['functions'][0]['is_function'] == True
+        assert d['functions'][0]['is_class'] == False
+        assert d['functions'][0]['name'] == 'foo'
+        
+        assert len(d['functions'][1]['returns']) == 1
+        assert len(d['functions'][1]['functions']) == 0
+        assert len(d['functions'][1]['variables']) == 1
+        assert len(d['functions'][1]['docstrings']) == 0
+        assert len(d['functions'][1]['decorators']) == 1
+        assert d['functions'][1]['obj_type'] == 'function'
+        assert d['functions'][1]['is_function'] == True
+        assert d['functions'][1]['is_class'] == False
+        assert d['functions'][1]['name'] == 'bar'
+        
+        assert len(d['functions'][2]['returns']) == 1
+        assert len(d['functions'][2]['functions']) == 0
+        assert len(d['functions'][2]['variables']) == 1
+        assert len(d['functions'][2]['docstrings']) == 0
+        assert len(d['functions'][2]['decorators']) == 3
+        assert d['functions'][2]['obj_type'] == 'function'
+        assert d['functions'][2]['is_function'] == True
+        assert d['functions'][2]['is_class'] == False
+        assert d['functions'][2]['name'] == 'foobar'
