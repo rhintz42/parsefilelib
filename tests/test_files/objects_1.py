@@ -1,8 +1,6 @@
 import ast
 import os
 from parsefilelib.models.file_obj import FileObj
-from parsefilelib.models.base_lines_obj import BaseLinesObj, node_type,\
-                                                fetch_ast_node as fetch_node
 
 class Foo():
     """
@@ -22,3 +20,9 @@ class Cool():
         return """
     def bar2(self)
     """
+
+    def bar3(self):
+        a = {
+    'a': 10
+        }
+        return a

@@ -1,6 +1,5 @@
 from parsefilelib.lib.parsefile import file_to_list
-from parsefilelib.lib.file_obj import rec_fetch_children, \
-                                      get_folder_path_from_file_path
+from parsefilelib.lib.file_obj import get_folder_path_from_file_path
 from parsefilelib.models.base_lines_obj import BaseLinesObj
 
 class FileObj(BaseLinesObj):
@@ -8,26 +7,39 @@ class FileObj(BaseLinesObj):
     An object the encapsulates all details of a file
     """
 
-    def __init__(self, path, parent_folder=None, lines=None):
+    def __init__(self, file_path=None, parent_folder=None, lines=None,
+                    child=None):
         """
         init method for the FileObj class
+
+        the optional stuff:
+        * child_function: If you are just creating a function, and don't want
+            to grab all the children, then this will just use your specific
+            function as the children
+            NOTE: You can still grab all the files children recursively
         """
-        self.path = path
-        self.lines = file_to_list(path)
+        self.path = file_path
+        self.functions = []
+        self.classes = []
+        #self.lines = file_to_list(file_path)
         
         # Init Parent Variables and Functions
-        super(FileObj, self).__init__('file', self, self.file_name,
-                                        lines=lines, indent=-1)
-
-        # Get children
-        self.fetch_children()
+        if child:
+            self.append_child(child)
+            super(FileObj, self).__init__(file_path=file_path, parent_file=self,
+                                            file_lines=lines, indent=-1,
+                                            get_children=False)
+        else:
+            super(FileObj, self).__init__(file_path=file_path, parent_file=self,
+                                            file_lines=lines, indent=-1,
+                                            get_children=True)
 
         # Get Parent
         if parent_folder:
             self.parent_folder = parent_folder
         else:
             from parsefilelib.models.folder_obj import FolderObj
-            self.parent_folder = FolderObj(get_folder_path_from_file_path(path),
+            self.parent_folder = FolderObj(get_folder_path_from_file_path(file_path),
                                            file_obj=self)
 
     """ GETTERS """
@@ -56,11 +68,8 @@ class FileObj(BaseLinesObj):
 
     """ FETCH CHILD OBJECTS """
     def fetch_children(self):
-        self.functions = []
-        self.classes = []
         self.docstrings = []
 
-        rec_fetch_children(self, self, self.lines, -1, 0)
 
         return self.functions
     

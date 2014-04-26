@@ -1,3 +1,4 @@
+"""
 try:
     import unittest2 as unittest
 except:
@@ -156,3 +157,4 @@ class TestRecFetchChildren(unittest.TestCase):
         assert len(file_obj.functions[0].decorators) == 0
         assert len(file_obj.functions[1].decorators) == 1
         assert len(file_obj.functions[2].decorators) == 3
+"""
