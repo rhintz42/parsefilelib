@@ -15,6 +15,7 @@ def rec_fetch_ast_node(root, name, max_index):
     while i < len(children):
         child = children[i]
         if not hasattr(child, 'name'):
+            i += 1
             continue
         if child.name == name:
             if i+1 < len(children):
@@ -299,11 +300,15 @@ class BaseLinesObj(object):
 
     @property
     def parent_file(self):
-        return self._parent_file
+        if hasattr(self, '_parent_file'):
+            return self._parent_file
+        return None
 
     @property
     def parent_obj(self):
-        return self._parent_obj
+        if hasattr(self, '_parent_obj'):
+            return self._parent_obj
+        return None
 
     @property
     def variables(self):
