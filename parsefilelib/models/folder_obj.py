@@ -11,6 +11,9 @@ class FolderObj(object):
         """
         init method for the FileObj class
         """
+        if folder_path[-1] != '/':
+            folder_path += '/'
+
         self.folder_path = folder_path
 
         self._child_files = []
@@ -44,7 +47,7 @@ class FolderObj(object):
 
     @property
     def folder_name(self):
-        return self._folder_path.split('/')[-1]
+        return self._folder_path.split('/')[-2]
 
     @property
     def folder_path(self):
@@ -109,7 +112,7 @@ class FolderObj(object):
         child_file_names = get_child_file_names(folder_path)
 
         for c in child_file_names:
-            file_path = '%s/%s' %(folder_path, c)
+            file_path = '%s%s' %(folder_path, c)
             self.append_child_file(FileObj(file_path, parent_folder=self))
         
         return self.child_files
@@ -118,7 +121,7 @@ class FolderObj(object):
         child_folder_names = get_child_folder_names(folder_path)
 
         for c in child_folder_names:
-            f_path = '%s/%s' %(folder_path, c)
+            f_path = '%s%s/' %(folder_path, c)
             self.append_child_folder(FolderObj(f_path, parent_folder=self))
         
         return self.child_folders

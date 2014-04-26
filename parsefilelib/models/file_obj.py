@@ -21,7 +21,6 @@ class FileObj(BaseLinesObj):
         self.path = file_path
         self.functions = []
         self.classes = []
-        #self.lines = file_to_list(file_path)
         
         # Init Parent Variables and Functions
         if child:

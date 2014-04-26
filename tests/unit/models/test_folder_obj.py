@@ -9,7 +9,7 @@ import os
 class TestFolderObj(unittest.TestCase):
     def get_test_folder_path(self, folder_name):
         test_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
-        return '%s/%s' %(test_dir, folder_name)
+        return '%s/%s/' %(test_dir, folder_name)
  
     def test_init__folder_path(self):
         from parsefilelib.models.folder_obj import FolderObj
@@ -287,3 +287,43 @@ class TestFolderObj(unittest.TestCase):
 
         # TODO: Put in a better check
         assert folder_obj.single_child_mode == True
+
+
+    ##########################################################################
+    ######################## SURVEYMONKEY TEST FILES #########################
+    ##########################################################################
+    def test_rec_child_folders__anweb(self):
+        """
+        These tests will fail unless the specific file is on your computer
+            in the specific place indicated by `test_file_path`
+        NOTE: This file is NOT static, thus this test is bound to fail over
+            time. IF it fails, then check to make sure there isn't a bug in
+            this project.
+            * If there is a bug, then fix it and make this test
+                passing.
+            * If there is no bug, then just make this test pass again
+        """
+        from parsefilelib.models.file_obj import FileObj
+        from parsefilelib.models.folder_obj import FolderObj
+
+        test_folder_path = '/opt/webapp/anweb/src/anweb/anweb/'
+        folder_obj = FolderObj(test_folder_path)
+
+        assert folder_obj.folder_name == 'anweb'
+        assert folder_obj.child_folders[0].folder_name == 'lib'
+        assert folder_obj.child_folders[4].folder_name == 'static'
+
+        assert folder_obj.child_files[0].name == '__init__.py'
+        assert folder_obj.child_files[1].name == 'appstatus.py'
+
+        assert folder_obj.child_folders[3].folder_name == 'models'
+
+        surveys_file_obj = folder_obj.child_folders[3].child_files[4]
+        assert surveys_file_obj.name == 'surveys.py'
+
+        assert len(surveys_file_obj.functions) == 0
+        assert len(surveys_file_obj.classes) == 4
+        # file_obj.classes[2] should be the Survey class
+        assert len(surveys_file_obj.classes[2].functions) == 87
+        # file_obj.classes[3] should be the Page class
+        assert len(surveys_file_obj.classes[3].functions) == 9

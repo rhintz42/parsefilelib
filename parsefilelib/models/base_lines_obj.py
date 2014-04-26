@@ -192,9 +192,16 @@ class BaseLinesObj(object):
         if ast_node:
             self.ast_node = ast_node
         else:
-            self.ast_node, self.line_index_end = fetch_ast_node(file_lines=self.file_str,
-                                                                name=def_name,
-                                                                max_index=self.line_index_end)
+            try:
+                self.ast_node, self.line_index_end = fetch_ast_node(file_lines=self.file_str,
+                                                                    name=def_name,
+                                                                    max_index=self.line_index_end)
+            #TODO: There are errors when you try to compile non-python objects.
+            #       Need to catch them and do something proper with them
+            except SyntaxError as e:
+                self.ast_node = None
+            except TypeError as e:
+                self.ast_node = None
 
         if not self.ast_node:
             return
