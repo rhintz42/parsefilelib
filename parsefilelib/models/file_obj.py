@@ -1,7 +1,7 @@
 from parsefilelib.lib.parsefile import file_to_list
 from parsefilelib.lib.file_obj import rec_fetch_children, \
                                       get_folder_path_from_file_path
-from parsefilelib.model.base_lines_obj import BaseLinesObj
+from parsefilelib.models.base_lines_obj import BaseLinesObj
 
 class FileObj(BaseLinesObj):
     """
@@ -26,7 +26,7 @@ class FileObj(BaseLinesObj):
         if parent_folder:
             self.parent_folder = parent_folder
         else:
-            from parsefilelib.model.folder_obj import FolderObj
+            from parsefilelib.models.folder_obj import FolderObj
             self.parent_folder = FolderObj(get_folder_path_from_file_path(path),
                                            file_obj=self)
 

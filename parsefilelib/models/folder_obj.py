@@ -1,6 +1,6 @@
 from parsefilelib.lib.folder_obj import get_child_file_names, \
                                         get_child_folder_names
-from parsefilelib.model.file_obj import FileObj
+from parsefilelib.models.file_obj import FileObj
 
 class FolderObj(object):
     """

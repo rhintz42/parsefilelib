@@ -62,7 +62,7 @@ def fetch_decorators(parent_obj, file_lines, func_def_index):
         i -= 1
 
 def create_child_obj(file_obj, parent_obj, file_lines, parent_indent, index):
-    from parsefilelib.model.base_lines_obj import BaseLinesObj
+    from parsefilelib.models.base_lines_obj import BaseLinesObj
 
     l = file_lines[index]
     l_no_indent = l.lstrip()

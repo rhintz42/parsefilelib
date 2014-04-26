@@ -12,7 +12,7 @@ class TestFolderObj(unittest.TestCase):
         return '%s/%s' %(test_dir, folder_name)
  
     def test_init__folder_path(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         test_folder_path = self.get_test_folder_path('test_files')
         folder_obj = FolderObj(test_folder_path)
@@ -20,7 +20,7 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.folder_path == test_folder_path
  
     def test_init__folder_name(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -29,7 +29,7 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.folder_name == folder_name
  
     def test_init__child_files__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -39,7 +39,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_files) >= 5
  
     def test_init__child_files__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -49,7 +49,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_files) == 1
  
     def test_init__child_files__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -60,7 +60,7 @@ class TestFolderObj(unittest.TestCase):
  
     #################################################################
     def test_init__child_folders__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -70,7 +70,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_folders) == 0
  
     def test_init__child_folders__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -80,7 +80,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_folders) == 2
  
     def test_init__child_folders__tests__length(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -90,7 +90,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_folders) == 3
  
     def test_init__child_folders__tests__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -108,7 +108,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_child_file_names__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -118,7 +118,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_file_names) >= 5
 
     def test_child_file_names__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -128,7 +128,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_file_names) == 1
 
     def test_child_file_names__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -140,7 +140,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_child_folder_names__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -150,7 +150,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_folder_names) == 0
 
     def test_child_folder_names__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -160,7 +160,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.child_folder_names) == 2
 
     def test_child_folder_names__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -172,7 +172,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_is_module__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -182,7 +182,7 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.is_module == False
 
     def test_child_folder_names__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -192,7 +192,7 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.is_module == True
 
     def test_child_folder_names__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -204,7 +204,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_rec_child_files__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -214,7 +214,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.rec_child_files) >= 5
 
     def test_rec_child_files__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -224,7 +224,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.rec_child_files) >= 8
 
     def test_rec_child_files__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -235,7 +235,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_rec_child_folders__test_files(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -245,7 +245,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.rec_child_folders) == 0
 
     def test_rec_child_folders__unit(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'unit'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -255,7 +255,7 @@ class TestFolderObj(unittest.TestCase):
         assert len(folder_obj.rec_child_folders) == 2
 
     def test_rec_child_folders__tests(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = ''
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -266,7 +266,7 @@ class TestFolderObj(unittest.TestCase):
 
     ################################################################
     def test_single_child_mode__simple(self):
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)
@@ -276,8 +276,8 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.single_child_mode == False
 
     def test_single_child_mode__file_obj_created_first(self):
-        from parsefilelib.model.file_obj import FileObj
-        from parsefilelib.model.folder_obj import FolderObj
+        from parsefilelib.models.file_obj import FileObj
+        from parsefilelib.models.folder_obj import FolderObj
 
         folder_name = 'test_files'
         test_folder_path = self.get_test_folder_path(folder_name)

@@ -13,7 +13,7 @@ class TestRecFetchChildren(unittest.TestCase):
     
     def test_rec_fetch_children__simplest(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -30,7 +30,7 @@ class TestRecFetchChildren(unittest.TestCase):
  
     def test_rec_fetch_children__simple_1(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simple.py')
         file_obj = FileObj(test_file_path)
@@ -50,7 +50,7 @@ class TestRecFetchChildren(unittest.TestCase):
  
     def test_rec_fetch_children__simple_2(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simple_2.py')
         file_obj = FileObj(test_file_path)
@@ -67,7 +67,7 @@ class TestRecFetchChildren(unittest.TestCase):
  
     def test_rec_fetch_children__class_simple(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_simple.py')
         file_obj = FileObj(test_file_path)
@@ -89,7 +89,7 @@ class TestRecFetchChildren(unittest.TestCase):
 
     def test_rec_fetch_children__class_with_extra_functions(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_with_extra_functions.py')
         file_obj = FileObj(test_file_path)
@@ -107,7 +107,7 @@ class TestRecFetchChildren(unittest.TestCase):
 
     def test_rec_fetch_children__docstrings(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('docstrings.py')
         file_obj = FileObj(test_file_path)
@@ -123,7 +123,7 @@ class TestRecFetchChildren(unittest.TestCase):
 
     def test_rec_fetch_children__strings(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('strings.py')
         file_obj = FileObj(test_file_path)
@@ -140,7 +140,7 @@ class TestRecFetchChildren(unittest.TestCase):
 
     def test_rec_fetch_children__decorators(self):
         from parsefilelib.lib.file_obj import rec_fetch_children
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('decorators.py')
         file_obj = FileObj(test_file_path)

@@ -12,7 +12,7 @@ class TestFileObj(unittest.TestCase):
         return '%s/%s' %(test_files_dir, file_name)
  
     def test_init__num_lines(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -20,7 +20,7 @@ class TestFileObj(unittest.TestCase):
         assert file_obj.num_lines == 2
  
     def test_init__lines(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -28,7 +28,7 @@ class TestFileObj(unittest.TestCase):
         assert file_obj.lines[0] == 'def foo():\n'
  
     def test_init__file_name(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_name = 'simplest.py'
         test_file_path = self.get_test_file_path(test_file_name)
@@ -37,7 +37,7 @@ class TestFileObj(unittest.TestCase):
         assert file_obj.file_name == test_file_name
  
     def test_init__file_path(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -46,7 +46,7 @@ class TestFileObj(unittest.TestCase):
 
     ###########################################################
     def test_init__functions__simplest(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -54,7 +54,7 @@ class TestFileObj(unittest.TestCase):
         assert file_obj.functions
  
     def test_init__functions__simple_2(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simple_2.py')
         file_obj = FileObj(test_file_path)
@@ -62,7 +62,7 @@ class TestFileObj(unittest.TestCase):
         assert len(file_obj.functions) == 2
  
     def test_init__functions__simple_1(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simple.py')
         file_obj = FileObj(test_file_path)
@@ -70,7 +70,7 @@ class TestFileObj(unittest.TestCase):
         assert len(file_obj.functions) == 7
  
     def test_init__functions__class_simple(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_simple.py')
         file_obj = FileObj(test_file_path)
@@ -79,7 +79,7 @@ class TestFileObj(unittest.TestCase):
         assert len(file_obj.functions) == 0
  
     def test_init__functions__class_with_extra_functions(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_with_extra_functions.py')
         file_obj = FileObj(test_file_path)
@@ -92,7 +92,7 @@ class TestFileObj(unittest.TestCase):
         assert len(file_obj.functions[0].functions) == 0
  
     def test_init__functions__docstrings(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('docstrings.py')
         file_obj = FileObj(test_file_path)
@@ -101,7 +101,7 @@ class TestFileObj(unittest.TestCase):
 
     ###########################################################
     def test_init__parent_folder(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -112,7 +112,7 @@ class TestFileObj(unittest.TestCase):
     ###########################################################
     ###########################################################
     def test_to_dict__simplest(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
@@ -139,7 +139,7 @@ class TestFileObj(unittest.TestCase):
         assert d['functions'][0]['name'] == 'foo'
 
     def test_to_dict__simple_2(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('simple_2.py')
         file_obj = FileObj(test_file_path)
@@ -173,7 +173,7 @@ class TestFileObj(unittest.TestCase):
         assert d['functions'][1]['name'] == 'second_function'
 
     def test_to_dict__class_simple(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_simple.py')
         file_obj = FileObj(test_file_path)
@@ -207,7 +207,7 @@ class TestFileObj(unittest.TestCase):
         assert d['classes'][0]['functions'][0]['name'] == '__init__'
 
     def test_to_dict__class_with_extra_function(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('class_with_extra_functions.py')
         file_obj = FileObj(test_file_path)
@@ -241,7 +241,7 @@ class TestFileObj(unittest.TestCase):
         assert d['functions'][0]['name'] == 'extra'
 
     def test_to_dict__docstrings(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('docstrings.py')
         file_obj = FileObj(test_file_path)
@@ -284,7 +284,7 @@ class TestFileObj(unittest.TestCase):
         assert d['functions'][7]['docstrings'][0][1] == 'docstring that is put all the way to the left\n'
 
     def test_to_dict__docstrings_def_left(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('docstrings_def_left.py')
         file_obj = FileObj(test_file_path)
@@ -321,7 +321,7 @@ class TestFileObj(unittest.TestCase):
         assert d['classes'][0]['functions'][0]['docstrings'][0][1] == 'class Cool():\n'
 
     def test_to_dict__strings(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('strings.py')
         file_obj = FileObj(test_file_path)
@@ -358,7 +358,7 @@ class TestFileObj(unittest.TestCase):
         assert len(d['classes'][0]['functions'][1]['docstrings']) == 0
 
     def test_to_dict__decorators(self):
-        from parsefilelib.model.file_obj import FileObj
+        from parsefilelib.models.file_obj import FileObj
 
         test_file_path = self.get_test_file_path('decorators.py')
         file_obj = FileObj(test_file_path)
