@@ -258,16 +258,26 @@ class BaseLinesObj(object):
         return self._classes
 
     @property
+    def children(self):
+        return self.classes + self.functions
+
+    @property
     def comments(self):
-        return self._comments
+        if hasattr(self, '_comments'):
+            return self._comments
+        return None
 
     @property
     def decorators(self):
-        return self._decorators
+        if hasattr(self, '_decorators'):
+            return self._decorators
+        return None
 
     @property
     def docstring(self):
-        return self._docstring
+        if hasattr(self, '_docstring'):
+            return self._docstring
+        return None
 
     @property
     def functions(self):
@@ -275,11 +285,15 @@ class BaseLinesObj(object):
 
     @property
     def imports(self):
-        return self._imports
+        if hasattr(self, '_imports'):
+            return self._imports
+        return None
 
     @property
     def indent(self):
-        return self._indent
+        if hasattr(self, '_indent'):
+            return self._indent
+        return None
 
     @property
     def is_class(self):
@@ -303,7 +317,9 @@ class BaseLinesObj(object):
 
     @property
     def obj_type(self):
-        return self._obj_type
+        if hasattr(self, '_obj_type'):
+            return self._obj_type
+        return None
 
     @property
     def parent_file(self):
@@ -426,12 +442,16 @@ class BaseLinesObj(object):
         * Don't need num_lines, kind of pointless for others because they have
             access to lines and the python library
         """
+        if not self.obj_type:
+            return {}
+
         return {
             'classes': [c.to_dict() for c in self.classes],
             'comments': self.comments,
             'decorators': self.decorators,
             'docstring': self.docstring,
             'functions': [f.to_dict() for f in self.functions],
+            'children': [c.to_dict() for c in self.children],
             'imports': self.imports,
             'indent': self.indent,
             'is_class': self.is_class,

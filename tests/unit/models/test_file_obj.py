@@ -4,6 +4,7 @@ except:
     import unittest
 import sys
 import os
+from outlib.lib.wout import output_to_logger, output_to_file
 
 
 class TestFileObj(unittest.TestCase):
@@ -74,6 +75,10 @@ class TestFileObj(unittest.TestCase):
 
         test_file_path = self.get_test_file_path('class_simple.py')
         file_obj = FileObj(test_file_path)
+
+        #output_to_file('/opt/webapp/proflib_visualizer/src/proflib_visualizer/proflib_visualizer/static/json/parse_file_lib_json_files/test_1.json',
+        #                [file_obj.to_dict()],
+        #                append=False)
 
         assert len(file_obj.classes) == 1
         assert len(file_obj.functions) == 0
@@ -672,6 +677,10 @@ class TestFileObj(unittest.TestCase):
 
         test_file_path = '/opt/webapp/anweb/src/anweb/anweb/models/surveys.py'
         file_obj = FileObj(file_path=test_file_path)
+        output_to_file('/opt/webapp/proflib_visualizer/src/proflib_visualizer/proflib_visualizer/static/json/parse_file_lib_json_files/test_1.json',
+                        [file_obj.to_dict()],
+                        append=False)
+
 
         assert len(file_obj.functions) == 0
         assert len(file_obj.classes) == 4

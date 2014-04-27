@@ -38,6 +38,10 @@ class FolderObj(object):
         return self._child_folders
 
     @property
+    def children(self):
+        return self.child_folders + self.child_files
+
+    @property
     def child_file_names(self):
         return [ f.file_name for f in self.child_files ]
 
@@ -125,3 +129,23 @@ class FolderObj(object):
             self.append_child_folder(FolderObj(f_path, parent_folder=self))
         
         return self.child_folders
+
+    """ GET METHODS """
+
+    def to_dict(self):
+        """
+        Returns ...
+
+        Stuff to note:
+        * Don't print parent because we don't want to have a circular thing
+            going
+        * Don't need num_lines, kind of pointless for others because they have
+            access to lines and the python library
+        """
+        return {
+            'files': [f.to_dict() for f in self.child_files],
+            'folders': [f.to_dict() for f in self.child_folders],
+            'children': [c.to_dict() for c in self.children],
+            'folder_path': self.folder_path,
+            'name': self.folder_name,
+        }

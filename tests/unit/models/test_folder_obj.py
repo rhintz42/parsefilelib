@@ -5,6 +5,8 @@ except:
 import sys
 import os
 
+from outlib.lib.wout import output_to_file
+
 
 class TestFolderObj(unittest.TestCase):
     def get_test_folder_path(self, folder_name):
@@ -317,6 +319,13 @@ class TestFolderObj(unittest.TestCase):
         assert folder_obj.child_files[1].name == 'appstatus.py'
 
         assert folder_obj.child_folders[3].folder_name == 'models'
+
+
+        test_file_path = '/opt/webapp/anweb/src/anweb/anweb/models/surveys.py'
+        file_obj = FileObj(file_path=test_file_path)
+        output_to_file('/opt/webapp/proflib_visualizer/src/proflib_visualizer/proflib_visualizer/static/json/parse_file_lib_json_files/test_2.json',
+                        [folder_obj.to_dict()],
+                        append=False)
 
         surveys_file_obj = folder_obj.child_folders[3].child_files[4]
         assert surveys_file_obj.name == 'surveys.py'
