@@ -13,7 +13,12 @@ requires = [
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'waitress',
-    ]
+    'outlib',
+    ]   
+
+github_dependencies = [ 
+    'git+git://github.com/rhintz42/outlib.git#egg=outlib',
+]
 
 setup(name='parsefilelib',
       version='1.0.1',
@@ -32,6 +37,7 @@ setup(name='parsefilelib',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
+      dependency_links=github_dependencies,
       install_requires=requires,
       tests_require=requires,
       test_suite="parsefilelib",
