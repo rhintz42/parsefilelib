@@ -1,18 +1,5 @@
 import re
 
-def _get_string_end_index(func_code_lines, docstring_start_index):
-    """ Get End of Docstring line # """
-    if func_code_lines[docstring_start_index].count('"""') == 2 or \
-        func_code_lines[docstring_start_index].count("'''") == 2:
-        return docstring_start_index
-        
-    for i,l in enumerate(func_code_lines[docstring_start_index+1:],
-                         start=docstring_start_index+1):
-        if '"""' in l or "'''" in l:
-            return i
-
-    return len(func_code_lines) - 1
-
 def get_function_name(line):
     l_no_indent = line.lstrip()
     return line.split('(')[0][4:]
