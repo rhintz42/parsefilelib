@@ -677,9 +677,9 @@ class TestFileObj(unittest.TestCase):
 
         test_file_path = '/opt/webapp/anweb/src/anweb/anweb/models/surveys.py'
         file_obj = FileObj(file_path=test_file_path)
-        output_to_file('/opt/webapp/proflib_visualizer/src/proflib_visualizer/proflib_visualizer/static/json/parse_file_lib_json_files/test_1.json',
-                        [file_obj.to_dict()],
-                        append=False)
+        #output_to_file('/opt/webapp/proflib_visualizer/src/proflib_visualizer/proflib_visualizer/static/json/parse_file_lib_json_files/test_1.json',
+        #                [file_obj.to_dict()],
+        #                append=False)
 
 
         assert len(file_obj.functions) == 0
