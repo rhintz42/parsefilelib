@@ -27,7 +27,40 @@ class FolderObj(object):
             self.files = self.fetch_child_file_objs(folder_path)
             self.folders = self.fetch_child_folder_objs(folder_path)
 
+
     """ GETTERS """
+
+    @property
+    def child_file_names(self):
+        """
+        Return an array of all of the file names in this folder
+
+        NOTE: If this object is set to `single_child_mode`, then this will
+            return an array with only the name of the only file given to this
+            object
+        """
+        return [ f.name for f in self.files ]
+
+    @property
+    def child_folder_names(self):
+        """
+        Return an array of all of the folder names in this folder
+
+        NOTE: If this object is set to `single_child_mode`, then this will
+            return an empty array
+        """
+        return [ f.name for f in self.folders ]
+
+    @property
+    def children(self):
+        """
+        Return all of the objects in this folder, which consists of both files
+            and folders
+
+        NOTE: If this object is set to `single_child_mode`, then this will
+            return the same array that self.files returns
+        """
+        return self.folders + self.files
 
     @property
     def files(self):
@@ -47,51 +80,6 @@ class FolderObj(object):
         return self._folders
 
     @property
-    def children(self):
-        """
-        Return all of the objects in this folder, which consists of both files
-            and folders
-
-        If this object is set to `single_child_mode`, then this will return the
-            same array that self.files returns
-        """
-        return self.folders + self.files
-
-    @property
-    def child_file_names(self):
-        """
-        Return an array of all of the file names in this folder
-
-        If this object is set to `single_child_mode`, then this will return an
-            array with only the name of the only file given to this object
-        """
-        return [ f.name for f in self.files ]
-
-    @property
-    def child_folder_names(self):
-        """
-        Return an array of all of the folder names in this folder
-
-        If this object is set to `single_child_mode`, then this will return an
-            empty array
-        """
-        return [ f.name for f in self.folders ]
-
-    @property
-    def name(self):
-        """
-        Return the name of this folder
-        """
-        return self.path.split('/')[-2]
-
-    @property
-    def path(self):
-        """
-        Return the path of this folder
-        """
-        return self._path
-
-    @property
     def is_module(self):
         """
         Return whether this folder is a module or not
@@ -102,11 +90,25 @@ class FolderObj(object):
         return False
 
     @property
+    def name(self):
+        """
+        Return the name of this folder
+        """
+        return self.path.split('/')[-2]
+
+    @property
     def parent_folder(self):
         """
         Return the parent of this folder
         """
         return self._parent_folder
+
+    @property
+    def path(self):
+        """
+        Return the path of this folder
+        """
+        return self._path
 
     @property
     def rec_child_files(self):
@@ -145,6 +147,7 @@ class FolderObj(object):
         """
         return self._single_child_mode
 
+
     """ SETTERS """
 
     @files.setter
@@ -161,13 +164,6 @@ class FolderObj(object):
         """
         self._folders = value
 
-    @path.setter
-    def path(self, value):
-        """
-        Set the _path property of this folder
-        """
-        self._path = value
-
     @parent_folder.setter
     def parent_folder(self, value):
         """
@@ -175,12 +171,20 @@ class FolderObj(object):
         """
         self._parent_folder = value
 
+    @path.setter
+    def path(self, value):
+        """
+        Set the _path property of this folder
+        """
+        self._path = value
+
     @single_child_mode.setter
     def single_child_mode(self, value):
         """
         Set the _single_child_mode property of this folder
         """
         self._single_child_mode = value
+
 
     """ APPENDERS """
 
@@ -196,6 +200,7 @@ class FolderObj(object):
         """
         self.folders.append(value)
     
+
     """ Fetch Methods """
 
     def fetch_child_file_objs(self, folder_path):
@@ -230,6 +235,7 @@ class FolderObj(object):
             child_folders.append(FolderObj(f_path, parent_folder=self))
         
         return child_folders
+
 
     """ GET METHODS """
 

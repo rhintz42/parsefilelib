@@ -3,7 +3,7 @@ from parsefilelib.models.base_lines_obj import BaseLinesObj
 
 class FileObj(BaseLinesObj):
     """
-    An object the encapsulates all details of a file
+    An object that encapsulates all details of a file
     """
 
     def __init__(self, file_path=None, parent_folder=None, lines=None,
@@ -40,36 +40,59 @@ class FileObj(BaseLinesObj):
             self.parent_folder = FolderObj(get_folder_path_from_file_path(file_path),
                                            file_obj=self)
 
+
     """ GETTERS """
+
     @property
     def name(self):
+        """
+        Return the name of this file
+        """
         return self._path.split('/')[-1]
 
     @property
-    def path(self):
-        return self._path
+    def parent_folder(self):
+        """
+        Return the parent of this file
+        """
+        return self._parent_folder
 
     @property
-    def parent_folder(self):
-        return self._parent_folder
+    def path(self):
+        """
+        Return the path of this file
+        """
+        return self._path
+
 
     """ SETTERS """
     @parent_folder.setter
     def parent_folder(self, value):
+        """
+        Set the _parent_folder property of this file
+        """
         self._parent_folder = value
 
     @path.setter
     def path(self, value):
+        """
+        Set the _path property of this file
+        """
         self._path = value
+
 
     """ APPEND FUNCTIONS """
 
+
     """ FETCH CHILD OBJECTS """
     def fetch_children(self):
+        """
+        Return the child functions and classes of this file
+        """
+        # TODO: Tests
         self.docstrings = []
+        return self.functions + self.classes
 
-
-        return self.functions
     
     """ GET METHODS """
     def to_dict(self):
