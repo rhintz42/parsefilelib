@@ -437,6 +437,10 @@ class TestFileObj(unittest.TestCase):
         test_file_path = self.get_test_file_path('simple.py')
         file_obj = FileObj(file_path=test_file_path)
 
+        #fi = open('/opt/webapp/parsefilelib/src/parsefilelib/test.py', 'w')
+        #from parsefilelib.lib.unparse import Unparser
+        #f = Unparser(file_obj.ast_node, file=fi);
+
         assert len(file_obj.functions) == 7
         assert len(file_obj.classes) == 0
 
