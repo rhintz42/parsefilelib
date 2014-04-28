@@ -22,8 +22,8 @@ class BaseLinesObj(object):
             self.file_lines = file_lines
             self.file_str = ''.join(self.file_lines)
         else:
-            self.file_str = open(file_path, 'r').read()
             self.file_lines = file_to_list(file_path)
+            self.file_str = ''.join(self.file_lines)
 
         if line_index_end == 0:
             self.line_index_end = len(self.file_lines)-1
@@ -193,21 +193,27 @@ class BaseLinesObj(object):
         """
         Return the line_index_def_class property
         """
-        return self._line_index_def_class
+        if hasattr(self, '_line_index_def_class'):
+            return self._line_index_def_class
+        return 0
     
     @property
     def line_index_end(self):
         """
         Return the line_index_end property
         """
-        return self._line_index_end
+        if hasattr(self, '_line_index_end'):
+            return self._line_index_end
+        return 0
     
     @property
     def line_index_start(self):
         """
         Return the line_index_start property
         """
-        return self._line_index_start
+        if hasattr(self, '_line_index_start'):
+            return self._line_index_start
+        return 0
 
     @property
     def code(self):
@@ -221,21 +227,27 @@ class BaseLinesObj(object):
         """
         Return the lines property
         """
-        return self._lines
+        if hasattr(self, '_lines'):
+            return self._lines
+        return None
 
     @property
     def name(self):
         """
         Return the name property
         """
-        return self._name
+        if hasattr(self, '_name'):
+            return self._name
+        return None
 
     @property
     def num_lines(self):
         """
         Return the number of lines of this Object
         """
-        return len(self.lines)
+        if self.lines:
+            return len(self.lines)
+        return 0
 
     @property
     def obj_type(self):
@@ -287,14 +299,18 @@ class BaseLinesObj(object):
         """
         Return the variables property
         """
-        return self._variables
+        if hasattr(self, '_variables'):
+            return self._variables
+        return None
 
     @property
     def returns(self):
         """
         Return the returns property
         """
-        return self._returns
+        if hasattr(self, '_returns'):
+            return self._returns
+        return None
 
 
     """ SETTERS """
