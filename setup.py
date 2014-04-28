@@ -16,7 +16,7 @@ requires = [
     ]
 
 setup(name='parsefilelib',
-      version='0.0',
+      version='1.0.1',
       description='parsefilelib',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
