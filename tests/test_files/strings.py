@@ -16,6 +16,9 @@ def nice
         """
 class Cool():
         """
+        with mock.patch('parsefilelib.lib.base_lines_obj.fetch_ast_node') as f_a_n:
+            a = 10
+            b = a_f_n
         return 'bar function'
 
     def bar2(self):

@@ -331,6 +331,7 @@ class TestFileObj(unittest.TestCase):
         test_file_path = self.get_test_file_path('strings.py')
         file_obj = FileObj(test_file_path)
 
+        import pdb;pdb.set_trace()
         d = file_obj.to_dict()
 
         assert len(d['classes']) == 1
