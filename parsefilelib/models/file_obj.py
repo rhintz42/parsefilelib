@@ -66,6 +66,7 @@ class FileObj(BaseLinesObj):
 
 
     """ SETTERS """
+
     @parent_folder.setter
     def parent_folder(self, value):
         """
@@ -81,10 +82,8 @@ class FileObj(BaseLinesObj):
         self._path = value
 
 
-    """ APPEND FUNCTIONS """
-
-
     """ FETCH CHILD OBJECTS """
+
     def fetch_children(self):
         """
         Return the child functions and classes of this file
@@ -95,7 +94,11 @@ class FileObj(BaseLinesObj):
 
     
     """ GET METHODS """
+
     def to_dict(self):
+        """
+        Returns a dictionary representation of this File
+        """
         parent_dict = super(FileObj, self).to_dict()
         # TODO: Add stuff only this class has to parent_dict
         return parent_dict

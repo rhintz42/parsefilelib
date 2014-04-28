@@ -1,10 +1,17 @@
 
 class BaseObj(object):
+    """
+    An object that encapsulates all details of an object for the purposes of
+        this project
+    """
+
     def __init__(self, ast_node, parent_obj=None,
                     parent_file=None, file_lines=None, line_number=0, indent=0,
                     file_path=None, line_index_end=0, obj_type=None):
         from parsefilelib.models.base_lines_obj import node_type
-
+        """
+        init method for the BaseObj
+        """
         # Set ast_node
         self.ast_node = ast_node
 
