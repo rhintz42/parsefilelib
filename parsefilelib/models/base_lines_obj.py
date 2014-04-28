@@ -1,179 +1,22 @@
 import ast
 from parsefilelib.lib.parsefile import file_to_list
 from parsefilelib.models.base_obj import BaseObj
+from parsefilelib.lib.base_lines_obj import fetch_ast_node,\
+                                            get_line_index_def_class,\
+                                            node_type,\
+                                            rec_fetch_ast_node
 
-
-def rec_fetch_ast_node(root, name, max_index):
-    if not hasattr(root, 'body'):
-        return None, max_index
-
-    children = root.body
-
-    #for child in children:
-    i = 0
-    while i < len(children):
-        child = children[i]
-        if not hasattr(child, 'name'):
-            i += 1
-            continue
-        if child.name == name:
-            if i+1 < len(children):
-                line_index_end = children[i+1].lineno-2
-            else:
-                line_index_end = max_index
-            return child, line_index_end
-        i += 1
-
-    #for child in children:
-    i = 0
-    while i < len(children):
-        child = children[i]
-        if i+1 < len(children):
-            m_index = children[i+1].lineno-2
-        else:
-            m_index = max_index
-
-        node, line_index_end = rec_fetch_ast_node(child, name, m_index)
-        if node:
-            return node, line_index_end
-        i += 1
-
-    return None, max_index
-    
-
-def fetch_ast_node(file_lines=None, name=None, max_index=None):
-    if not file_lines:
-        return None, max_index
-
-    root = ast.parse(file_lines)
-
-    if not name:
-        return root, max_index
-
-    return rec_fetch_ast_node(root, name, max_index)
-
-def node_type(ast_node):
-    if ast_node.__class__.__name__ == 'FunctionDef':
-        return 'function'
-    elif ast_node.__class__.__name__ == 'ClassDef':
-        return 'class'
-    elif ast_node.__class__.__name__ == 'Module':
-        return 'file'
-    elif ast_node.__class__.__name__ == 'Return':
-        return 'return'
-    elif ast_node.__class__.__name__ == 'Assign':
-        return 'assign'
-    elif ast_node.__class__.__name__ == 'Import':
-        return 'import'
-    elif ast_node.__class__.__name__ == 'ImportFrom':
-        return 'import'
-    elif ast_node.__class__.__name__ == 'Expr':
-        return 'other'
-    else:
-        return 'other'
-
-def get_line_index_def_class(file_lines, start_index, max_index):
-    i = start_index
-    while i < max_index:
-        l = file_lines[i]
-        l_no_indent = l.lstrip()
-
-        if 'def' == l_no_indent[:3] or 'class' == l_no_indent[:5]:
-            return i
-
-        i += 1
-
-    return max_index
 
 class BaseLinesObj(object):
     """
-    An object the encapsulates all details of a Lines object
+    An object that encapsulates all details of a Lines object
     """
-    def fetch_child_functions(self):
-        return self._fetch_children(fetch_obj_type='function')
 
-    def fetch_child_classes(self):
-        return self._fetch_children(fetch_obj_type='class')
-
-    def fetch_child_decorators(self):
-        i = 0
-        children = self.ast_node.decorator_list
-        decorators = []
-        while i < len(children):
-            if i+1 < len(children):
-                line_index_end = children[i+1].lineno-2
-            else:
-                line_index_end = self.line_index_def_class
-
-            d = children[i]
-            decorators.append(BaseObj(
-                    d,
-                    obj_type='decorator',
-                    line_index_end=line_index_end,
-                    parent_obj=self)
-                )
-            i += 1
-        return decorators
-
-    def fetch_child_imports(self):
-        return self._fetch_children(fetch_obj_type='import')
-
-    def fetch_child_returns(self):
-        return self._fetch_children(fetch_obj_type='return')
-
-    def fetch_child_variables(self):
-        return self._fetch_children(fetch_obj_type='assign')
-
-    def _fetch_children(self, fetch_obj_type='function'):
-        root = self.ast_node
-
-        if not hasattr(root, 'body'):
-            return []
-
-        obj_list = []
-        children = root.body
-
-        i = 0
-        while i < len(children):
-            child = children[i]
-            if node_type(child) == fetch_obj_type:
-                if i+1 < len(children):
-                    line_index_end = children[i+1].lineno-2
-                else:
-                    line_index_end = self.line_index_end
-
-                if fetch_obj_type == 'function' or fetch_obj_type == 'class' or fetch_obj_type == 'file':
-                    obj_list.append(BaseLinesObj(
-                        ast_node=child,
-                        file_lines=self.file_lines,
-                        line_index_end=line_index_end,
-                        def_name=child.name,
-                        parent_obj=self,
-                        parent_file=self.parent_file)
-                    )
-                else:
-                    obj_list.append(BaseObj(
-                        child,
-                        line_index_end=line_index_end,
-                        parent_obj=self,
-                        parent_file=self.parent_file)
-                    )
-            i += 1
-
-        return obj_list
-
-    # TODO: FUNCTION LINES MAYBE DANGEROUS
-    #   Look into further to see best way to handle
-    #   Do recursion in these files
-    #       Check to make sure function_name is in there, though
     def __init__(self, def_name=None, ast_node=None, parent_obj=None,
                     parent_file=None, file_lines=None, line_number=0, indent=0,
                     file_path=None, line_index_end=0, get_children=True):
         """
         init method for the BaseLinesObj
-
-        the optional stuff:
-        * file_path: used if there is no parent_file
         """
         if file_lines:
             self.file_lines = file_lines
@@ -248,7 +91,9 @@ class BaseLinesObj(object):
         self.returns = self.fetch_child_returns()
         self.variables = self.fetch_child_variables()
 
+
     """ GETTERS """
+
     @property
     def ast_node(self):
         return self._ast_node
@@ -373,7 +218,9 @@ class BaseLinesObj(object):
     def returns(self):
         return self._returns
 
+
     """ SETTERS """
+
     @ast_node.setter
     def ast_node(self, value):
         self._ast_node = value
@@ -446,7 +293,46 @@ class BaseLinesObj(object):
     def variables(self, value):
         self._variables = value
 
-    """ APPEND FUNCTIONS """
+
+    """ FETCH METHODS """
+
+    def fetch_child_functions(self):
+        return self._fetch_children(fetch_obj_type='function')
+
+    def fetch_child_classes(self):
+        return self._fetch_children(fetch_obj_type='class')
+
+    def fetch_child_decorators(self):
+        i = 0
+        children = self.ast_node.decorator_list
+        decorators = []
+        while i < len(children):
+            if i+1 < len(children):
+                line_index_end = children[i+1].lineno-2
+            else:
+                line_index_end = self.line_index_def_class
+
+            d = children[i]
+            decorators.append(BaseObj(
+                    d,
+                    obj_type='decorator',
+                    line_index_end=line_index_end,
+                    parent_obj=self)
+                )
+            i += 1
+        return decorators
+
+    def fetch_child_imports(self):
+        return self._fetch_children(fetch_obj_type='import')
+
+    def fetch_child_returns(self):
+        return self._fetch_children(fetch_obj_type='return')
+
+    def fetch_child_variables(self):
+        return self._fetch_children(fetch_obj_type='assign')
+
+
+    """ APPEND """
     def append_child(self, obj):
         if obj.obj_type == 'function':
             self.append_function(obj)
@@ -509,3 +395,44 @@ class BaseLinesObj(object):
             'variables': self.variables,
             'returns': self.returns
         }
+
+
+    """ Private Methods """
+
+    def _fetch_children(self, fetch_obj_type='function'):
+        root = self.ast_node
+
+        if not hasattr(root, 'body'):
+            return []
+
+        obj_list = []
+        children = root.body
+
+        i = 0
+        while i < len(children):
+            child = children[i]
+            if node_type(child) == fetch_obj_type:
+                if i+1 < len(children):
+                    line_index_end = children[i+1].lineno-2
+                else:
+                    line_index_end = self.line_index_end
+
+                if fetch_obj_type == 'function' or fetch_obj_type == 'class' or fetch_obj_type == 'file':
+                    obj_list.append(BaseLinesObj(
+                        ast_node=child,
+                        file_lines=self.file_lines,
+                        line_index_end=line_index_end,
+                        def_name=child.name,
+                        parent_obj=self,
+                        parent_file=self.parent_file)
+                    )
+                else:
+                    obj_list.append(BaseObj(
+                        child,
+                        line_index_end=line_index_end,
+                        parent_obj=self,
+                        parent_file=self.parent_file)
+                    )
+            i += 1
+
+        return obj_list
