@@ -111,7 +111,7 @@ class TestFileObj(unittest.TestCase):
         test_file_path = self.get_test_file_path('simplest.py')
         file_obj = FileObj(test_file_path)
 
-        assert file_obj.parent_folder.folder_name == 'test_files'
+        assert file_obj.parent_folder.name == 'test_files'
 
     ###########################################################
     ###########################################################

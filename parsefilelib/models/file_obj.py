@@ -1,4 +1,3 @@
-from parsefilelib.lib.parsefile import file_to_list
 from parsefilelib.lib.file_obj import get_folder_path_from_file_path
 from parsefilelib.models.base_lines_obj import BaseLinesObj
 
@@ -14,8 +13,8 @@ class FileObj(BaseLinesObj):
 
         the optional stuff:
         * child_function: If you are just creating a function, and don't want
-            to grab all the children, then this will just use your specific
-            function as the children
+            to grab all the children of a file, then this will just use your 
+            specific function as the children
             NOTE: You can still grab all the files children recursively
         """
         self.path = file_path
@@ -43,7 +42,7 @@ class FileObj(BaseLinesObj):
 
     """ GETTERS """
     @property
-    def file_name(self):
+    def name(self):
         return self._path.split('/')[-1]
 
     @property

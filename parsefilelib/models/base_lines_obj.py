@@ -1,5 +1,4 @@
 import ast
-from parsefilelib.lib.file_obj import fetch_comment
 from parsefilelib.lib.parsefile import file_to_list
 from parsefilelib.models.base_obj import BaseObj
 
@@ -208,8 +207,9 @@ class BaseLinesObj(object):
 
         self.obj_type = node_type(self.ast_node)
 
+        # Put this conditional stuff into the file object
         if node_type(self.ast_node) == 'file':
-            self.name = self.file_name
+            #self.name = self.file_name
             self.indent = -1
             self.line_index_start = 0
             self.line_index_def_class = 0
@@ -302,6 +302,26 @@ class BaseLinesObj(object):
     @property
     def is_function(self):
         return self._obj_type == 'function'
+    
+    @property
+    def line_number(self):
+        return self.line_index_start + 1
+    
+    @property
+    def line_index_def_class(self):
+        return self._line_index_def_class
+    
+    @property
+    def line_index_end(self):
+        return self._line_index_end
+    
+    @property
+    def line_index_start(self):
+        return self._line_index_start
+
+    @property
+    def code(self):
+        return self.lines
 
     @property
     def lines(self):
@@ -319,6 +339,18 @@ class BaseLinesObj(object):
     def obj_type(self):
         if hasattr(self, '_obj_type'):
             return self._obj_type
+        return None
+
+    @property
+    def file_name(self):
+        if self.parent_file:
+            return self.parent_file.name
+        return None
+
+    @property
+    def file_path(self):
+        if self.parent_file:
+            return self.parent_file.path
         return None
 
     @property
@@ -365,6 +397,18 @@ class BaseLinesObj(object):
     @functions.setter
     def functions(self, value):
         self._functions = value
+    
+    @line_index_def_class.setter
+    def line_index_def_class(self, value):
+        self._line_index_def_class = value
+    
+    @line_index_end.setter
+    def line_index_end(self, value):
+        self._line_index_end = value
+    
+    @line_index_start.setter
+    def line_index_start(self, value):
+        self._line_index_start = value
 
     @lines.setter
     def lines(self, value):
