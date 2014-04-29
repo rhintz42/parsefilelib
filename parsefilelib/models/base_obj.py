@@ -36,10 +36,15 @@ class BaseObj(object):
                 self.imps.append({'name': n.name, 'asname': n.asname})
         elif self.obj_type == 'decorator':
             if hasattr(self.ast_node, 'func'):
-                self.name = self.ast_node.func.id
+                if hasattr(self.ast_node.func, 'id'):
+                    self.name = self.ast_node.func.id
+            if hasattr(self.ast_node, 'args'):
                 self.args = self.ast_node.args
+            if hasattr(self.ast_node, 'keywords'):
                 self.keywords = self.ast_node.keywords
+            if hasattr(self.ast_node, 'starargs'):
                 self.starargs = self.ast_node.starargs
+            if hasattr(self.ast_node, 'kwargs'):
                 self.kwargs = self.ast_node.kwargs
             else:
                 self.name = self.ast_node.id
